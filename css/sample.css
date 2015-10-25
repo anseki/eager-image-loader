@@ -1,0 +1,203 @@
+#sample-03 img {
+  -webkit-tap-highlight-color: transparent;
+  transform: translateZ(0);
+  box-shadow: 0 0 1px transparent;
+}
+
+.sample-frame {
+  padding: 10px;
+  border: 2px solid #b4b4b4;
+  background-color: #fff;
+  margin: 5px 0;
+  text-align: center;
+}
+.sample-frame img {
+  width: 224px;
+  height: 147px;
+  margin: 10px;
+  background: center no-repeat #dfdfdf;
+  background-size: 80% 80%;
+  /* No shorthand for bug */
+}
+.sample-frame img.loading {
+  background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiPjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjE0IiBvcGFjaXR5PSIwLjI1Ii8+PHBhdGggZD0iTTE2LDIgYTE0LDE0IDAgMCAxIDE0LDE0IiBzdHJva2UtbGluZWNhcD0icm91bmQiPjxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDE2IDE2IiB0bz0iMzYwIDE2IDE2IiBiZWdpbj0iMHMiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9wYXRoPjwvc3ZnPg==");
+}
+
+.sample-v {
+  float: right;
+  margin: 5px 0 5px 5px;
+}
+.sample-v img {
+  display: block;
+  margin: 0 auto;
+}
+.sample-v img:not(:first-of-type) {
+  margin-top: 10px;
+}
+
+.highlight,
+h2,
+h3,
+h4,
+h5 {
+  clear: both;
+}
+
+/* ==================================== sample-01 */
+#sample-01 {
+  position: relative;
+  border-color: #186db4;
+  border-top-width: 12px;
+}
+#sample-01:before {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  width: 8px;
+  height: 8px;
+  background-color: #d7628e;
+}
+
+/* ==================================== sample-02 */
+#sample-02-step {
+  margin-top: 10px;
+  text-align: center;
+  line-height: 0.1;
+}
+#sample-02-step > div {
+  display: inline-block;
+  vertical-align: top;
+  width: 72px;
+  margin: 0 5px;
+  overflow: hidden;
+}
+#sample-02-step img {
+  margin: 0;
+  background-size: 57.6px 57.6px;
+  background-position: 7.2px center;
+}
+
+/* ==================================== sample-03 */
+#sample-03 > div {
+  display: inline-block;
+  vertical-align: top;
+  width: 224px;
+  height: 147px;
+  margin: 10px;
+  background: no-repeat #dfdfdf;
+  background-size: 100% 100%;
+  /* No shorthand for bug */
+}
+#sample-03 > div.loading img {
+  opacity: 1;
+}
+#sample-03 img {
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+  -moz-transition-duration: 2500ms;
+  -o-transition-duration: 2500ms;
+  -webkit-transition-duration: 2500ms;
+  transition-duration: 2500ms;
+  margin: 0;
+  background-size: auto;
+  opacity: 0;
+}
+
+/* ==================================== sample-04 */
+#sample-04 > div {
+  display: inline-block;
+  vertical-align: top;
+  width: 224px;
+  height: 147px;
+  margin: 10px;
+  background: no-repeat #dfdfdf;
+  background-size: 100% 100%;
+  /* No shorthand for bug */
+}
+#sample-04 > div > p {
+  margin: 10px;
+  text-align: left;
+}
+#sample-04 svg {
+  width: 224px;
+  height: 147px;
+  margin: 0;
+  display: block;
+}
+#sample-04 svg svg {
+  overflow: visible;
+  /* for FF symbol */
+}
+#sample-04 svg.cover {
+  background-color: #dfdfdf;
+}
+#sample-04 svg.stopped {
+  display: none;
+}
+
+#sample-04-01-symbol {
+  stroke: #fff;
+  stroke-width: 6px;
+  stroke-dasharray: 15px;
+  stroke-linecap: round;
+  fill: #dfdfdf;
+}
+#sample-04-01-symbol.shaped {
+  stroke-width: 0;
+}
+
+#sample-04-02-symbol path {
+  stroke: #fff;
+  stroke-width: 10px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+#sample-04-02-symbol circle {
+  fill: #fff;
+}
+#sample-04-02-symbol line {
+  stroke: #fff;
+  stroke-width: 5px;
+  fill: none;
+}
+
+#sample-04-03-symbol1 {
+  fill: #fff;
+}
+
+#sample-04-03-symbol1-use {
+  display: none;
+}
+#sample-04-03-symbol1-use.running {
+  display: inline;
+}
+
+#sample-04-03-symbol2 {
+  fill: #bbb;
+  display: none;
+}
+#sample-04-03-symbol2.running {
+  display: inline;
+}
+
+#sample-04-03-symbol2-mask use {
+  stroke: #fff;
+  stroke-width: 30px;
+  stroke-linecap: round;
+  fill: none;
+}
+
+#sample-04-03-image-mask path {
+  stroke: #fff;
+  stroke-width: 20px;
+  opacity: 0.8;
+  fill: none;
+}
+#sample-04-03-image-mask rect {
+  fill: #fff;
+}

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="The eager-loading for image files on the web page that loads the files according to your plan. This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/default.css">
+  <link rel="stylesheet" href="css/sample.css">
+  <script type="text/javascript" src="js/bug-preserveaspectratio.js"></script>
+  <script type="text/javascript" src="js/slow-image.js"></script>
+  <!-- Libs for sample codes must be loaded in "head". -->
+  <script type="text/javascript" src="js/eager-image-loader.min.js"></script>
+  <script type="text/javascript" src="js/sample.js"></script>
+
+  <title>EagerImageLoader</title>
+</head>
+<body>
+  <header>
+    <h1><a href="./">EagerImageLoader</a></h1>
+    <ul id="gh"><li><a href="https://github.com/anseki/eager-image-loader/tarball/master">Download TAR.GZ</a></li><li><a href="https://github.com/anseki/eager-image-loader/zipball/master">Download ZIP</a></li><li><a href="https://github.com/anseki/eager-image-loader">View on GitHub</a></li></ul>
+  </header>
+  <main>
+
+<!-- include "sample_01a.html" -->
+<!-- ================ sample -->
+<div id="sample-01" class="sample-frame sample-v">
+  <img data-src="./img/a1.jpg"
+    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E">
+  <img data-src="./img/a2.jpg"
+    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E">
+  <img data-src="./img/a3.jpg"
+    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E">
+</div>
+<!-- ================ /sample -->
+<!-- /include "sample_01a.html" -->
+
+<p>The eager-loading for image files on the web page that loads the files according to your plan.<br>This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.</p>
+
+<!-- include "sample_01b.html" -->
+<!-- ================ sample -->
+<p style="margin-bottom: 0; text-align: right;"><button id="sample-01-button">Start Sample</button></p>
+<p style="margin-left: 200px; font-size: 0.8em;"><em>The loading image files in these samples is deliberately slowed to show you the behavior.</em></p>
+
+<script>
+var sample01Loader;
+document.getElementById('sample-01-button').onclick = function() {
+  if (sample01Loader) {
+    if (sample01Loader.done) {
+      initSample('#sample-01 [data-src]');
+    } else {
+      return;
+    }
+  }
+  sample01Loader = new EagerImageLoader('#sample-01 [data-src]');
+};
+</script>
+<!-- ================ /sample -->
+<!-- /include "sample_01b.html" -->
+
+<p>The lazy-loading is very useful for the user which left your web page before he read all. It avoids forcing that user to pay the network cost for the images he didn&#39;t see, in the mobile networks. The image files are not loaded until it&#39;s presumed that each image is seen by the user. Therefore the user often be kept waiting it.</p>
+
+<p>EagerImageLoader loads the image files according to specific plan or document order.<br>For example, it loads a first image file in a hurry without other loading interfering. And after the loading a first image file finished, it starts the loading a second image file while the user is seeing a first image or reading something. As necessary, it loads the remaining image files in the order in which they would be seen by the user, one by one(default).</p>
+
+<p>By default, it loads without a break. You can control that it starts and stops. For example, like the lazy-loading, EagerImageLoader loads the image files when the user scrolls the window.<br>Also, it can pre-load the image files before those are used.</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;eager-image-loader.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">()</span><span class="nt">&lt;/script&gt;</span>
+
+<span class="c">&lt;!--</span>
+<span class="c">A minimum required is above code.</span>
+<span class="c">You can use this even if all of the HTML is not loaded yet.</span>
+<span class="c">For example, this can be in the head.</span>
+<span class="c">--&gt;</span>
+
+<span class="nt">&lt;img</span> <span class="na">data-src=</span><span class="s">&quot;img-1.png&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;iframe</span> <span class="na">data-src=</span><span class="s">&quot;img-2.svg&quot;</span><span class="nt">&gt;&lt;/iframe&gt;</span>
+<span class="nt">&lt;object</span> <span class="na">data-data=</span><span class="s">&quot;img-3.svg&quot;</span><span class="nt">&gt;&lt;/object&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">data-background=</span><span class="s">&quot;img-4.png&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">data-background=</span><span class="s">&quot;img-5.png&quot;</span><span class="nt">&gt;&lt;/button&gt;</span>
+
+<span class="c">&lt;!--</span>
+<span class="c">By default, EagerImageLoader starts automatically.</span>
+<span class="c">It finds out the 5 elements above.</span>
+<span class="c">Serially, it loads the each image file,</span>
+<span class="c">and it set that file to the each element.</span>
+<span class="c">--&gt;</span>
+</code></pre></div>
+<h2 id="constructor">Constructor</h2>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span><span class="nx">targets</span><span class="p">[,</span> <span class="nx">options</span><span class="p">]])</span>
+</code></pre></div>
+<h3 id="constructor-targets"><code>targets</code></h3>
+
+<p><em>Type:</em> string, HTMLElement, NodeList, HTMLCollection, Elements, Object or Array<br><em>Default:</em> <code>&#39;[data-src],[data-data],[data-background]&#39;</code></p>
+
+<p>The elements that specify the image files that are loaded.</p>
+
+<p>The string such as <code>&#39;#img-1&#39;</code> is the CSS selector to select <code>&lt;img id=&quot;img-1&quot;&gt;</code> element. The CSS selector might select multiple elements.<br>Also, you can specify the HTMLElement such as a return value of <code>document.querySelector(&#39;#img-1&#39;)</code> or <code>document.getElementById(&#39;img-1&#39;)</code>. Note that those methods might not be able to get the target element before the HTML is loaded sufficiently (target DOM structure is ready). EagerImageLoader selects the target elements by given string after that. Therefore you can specify the string even if the HTML is not loaded yet.</p>
+
+<p>By default, the URL of the image file is got via the <code>data-src</code>, <code>data-data</code> or <code>data-background</code> attribute of that element.</p>
+
+<ul>
+<li>If that is the element that accepts the <code>src</code> attribute (e.g. <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;iframe&gt;</code>, etc.), the URL that was got via the <code>data-src</code> attribute of that element is set to the <code>src</code> attribute of that element after the image file was loaded.<br>For example: <code>&lt;img data-src=&quot;img-1.png&quot;&gt;</code></li>
+<li>If that is the element that accepts the <code>data</code> attribute (e.g. <code>&lt;object&gt;</code>), the URL that was got via the <code>data-data</code> attribute of that element is set to the <code>data</code> attribute of that element after the image file was loaded.<br>For example: <code>&lt;object data-data=&quot;img-1.svg&quot;&gt;</code></li>
+<li>If that is any element that doesn&#39;t accept both the <code>src</code> and  <code>data</code> attribute (e.g. <code>&lt;div&gt;</code>, <code>&lt;body&gt;</code>, <code>&lt;section&gt;</code>, etc.), the URL that was got via the <code>data-background</code> attribute of that element is set to the <code>style.backgroundImage</code> property of that element after the image file was loaded.<br>For example: <code>&lt;div data-background=&quot;img-1.png&quot;&gt;</code></li>
+</ul>
+
+<p>Or, you can specify an URL via the <a href="#imagetarget"><code>imageTarget</code></a> object.</p>
+
+<p>You can specify the loading order via the Array. EagerImageLoader loads those according to the order of that Array.<br>For example:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;#img-2&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<ol>
+<li>Start to load <code>&#39;#img-1&#39;</code>. (It means a image file <code>&#39;#img-1&#39;</code> points. The same hereinafter.)</li>
+<li>Start to load <code>&#39;#img-2&#39;</code> after <code>&#39;#img-1&#39;</code> was loaded.</li>
+<li>Start to load <code>&#39;#img-3&#39;</code> after <code>&#39;#img-2&#39;</code> was loaded.</li>
+</ol>
+
+<p>The multiple image files in nested Array are loaded at the same time.<br>For example:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="p">[</span><span class="s1">&#39;#img-2a&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2b&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2c&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<!-- include "sample_02a.html" -->
+<!-- ================ sample -->
+<div id="sample-02" class="sample-frame sample-v">
+  <img id="sample-02-img-01" data-src="./img/a4.jpg"
+    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E">
+  <div id="sample-02-step"><!--
+    --><div><img data-src="./img/a1.jpg"
+      src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"></div><!--
+    --><div><img data-src="./img/a2.jpg"
+      src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"></div><!--
+    --><div><img data-src="./img/a3.jpg"
+      src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"></div><!--
+  --></div>
+  <img id="sample-02-img-05" data-src="./img/a5.jpg"
+    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E">
+</div>
+<!-- ================ /sample -->
+<!-- /include "sample_02a.html" -->
+
+<ol>
+<li>Start to load <code>&#39;#img-1&#39;</code>. (It means a image file <code>&#39;#img-1&#39;</code> points. The same hereinafter.)</li>
+<li>Start to load <code>&#39;#img-2a&#39;</code>, <code>&#39;#img-2b&#39;</code>, and <code>&#39;#img-2c&#39;</code> at the same time after <code>&#39;#img-1&#39;</code> was loaded.</li>
+<li>Start to load <code>&#39;#img-3&#39;</code> after 3 files above was loaded.</li>
+</ol>
+
+<!-- include "sample_02b.html" -->
+<!-- ================ sample -->
+<p style="text-align: right;"><button id="sample-02-button">Start Sample</button></p>
+
+<script>
+var sample02Loader;
+document.getElementById('sample-02-button').onclick = function() {
+  if (sample02Loader) {
+    if (sample02Loader.done) {
+      initSample('#sample-02 [data-src]');
+    } else {
+      return;
+    }
+  }
+  sample02Loader = new EagerImageLoader([
+    '#sample-02-img-01',
+    '#sample-02-step img',
+    '#sample-02-img-05'
+  ]);
+};
+</script>
+<!-- ================ /sample -->
+<!-- /include "sample_02b.html" -->
+
+<p>If the specific string as the CSS selector such as <code>&#39;img.pic&#39;</code> selects multiple elements, it is considered as an Array that includes those elements in document order.<br>For example, the following 2 codes work same:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Single selector that selects 3 elements</span>
+<span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">(</span><span class="s1">&#39;#img-1,#img-2,#img-3&#39;</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;#img-2&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<p><em>Note that multiple elements are selected in document order via the string as the CSS selector.</em> If the codes above are used in the HTML code that is <code>&lt;img id=&quot;img-3&quot;&gt;&lt;img id=&quot;img-2&quot;&gt;&lt;img id=&quot;img-1&quot;&gt;</code>, 2 codes work not same.</p>
+
+<p>That string in the Array is considered as a nested Array. That is, those are loaded at the same time.<br>For example, the following 2 codes work same:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;#img-2a,#img-2b,#img-2c&#39;</span><span class="p">,</span> <span class="c1">// Single selector that selects 3 elements</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="p">[</span><span class="s1">&#39;#img-2a&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2b&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2c&#39;</span><span class="p">],</span> <span class="c1">// 3 are loaded at the same time.</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<p>Also, NodeList, HTMLCollection or Elements such as a return value of <code>document.querySelectorAll(&#39;img&#39;)</code> or <code>document.getElementsByTagName(&#39;img&#39;)</code> that includes multiple elements is considered as an Array that includes those elements. Note that those methods might not be able to get the target elements before the HTML is loaded sufficiently (target DOM structure is ready). EagerImageLoader selects the target elements by given string after that. Therefore you can specify the string even if the HTML is not loaded yet.</p>
+
+<p>If something as multiple elements is specified in the nested Array, it is flattened in that nested Array.<br>For example, the following 2 codes work same:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+              <span class="c1">// 2nd selector in below selects 3 elements.</span>
+  <span class="p">[</span><span class="s1">&#39;#img-2a&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2b-x,#img-2b-y,#img-2b-z&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2c&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="c1">// 5 are loaded at the same time.</span>
+  <span class="p">[</span><span class="s1">&#39;#img-2a&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2b-x&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2b-y&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2b-z&#39;</span><span class="p">,</span> <span class="s1">&#39;#img-2c&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<p>If <code>targets</code> argument is not specified, the elements that have <code>data-src</code>, <code>data-data</code> or <code>data-background</code> attribute are selected as the targets.</p>
+
+<h4 id="imagetarget"><code>imageTarget</code></h4>
+
+<p>You can specify the <code>imageTarget</code> object instead of others above at everywhere.<br>For example:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-2&#39;</span><span class="p">,</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;foo.png&#39;</span> <span class="p">},</span> <span class="c1">// imageTarget object</span>
+  <span class="s1">&#39;#img-3&#39;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<p>It can have following properties.</p>
+
+<h5 id="element"><code>element</code></h5>
+
+<p><em>Type:</em> string, HTMLElement, NodeList, HTMLCollection, or Elements<br><em>Default:</em> <code>undefined</code></p>
+
+<p>This works the same as case that something except for <code>imageTarget</code> object is specified, if a single element is specified.<br>For example, <code>&#39;#img-1&#39;</code> works the same as <code>{ element: &#39;#img-1&#39; }</code>.</p>
+
+<p>If one that includes multiple elements is specified, it is considered as an Array that includes copied <code>imageTarget</code> objects that have <code>element</code> property as each element, in document order. Note that those <code>imageTarget</code> objects are always put into the nested Array. That is, those are loaded at the same time.<br>For example, the following 2 codes work same:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-1,#img-2,#img-3&#39;</span><span class="p">,</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;foo.png&#39;</span> <span class="p">}</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="p">[</span>
+    <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;foo.png&#39;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-2&#39;</span><span class="p">,</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;foo.png&#39;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-3&#39;</span><span class="p">,</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;foo.png&#39;</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">]);</span>
+</code></pre></div>
+<p>You can specify <code>new Image()</code> to pre-load the image file you use later.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">(</span>
+  <span class="c1">// This image file is not shown until the button is pushed.</span>
+  <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">(),</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;button-pushed.png&#39;</span> <span class="p">},</span>
+<span class="p">);</span>
+</code></pre></div>
+<h5 id="src,-data,-background"><code>src</code>, <code>data</code>, <code>background</code></h5>
+
+<p><em>Type:</em> string<br><em>Default:</em> <code>undefined</code></p>
+
+<p>The URL of the image file that is loaded.</p>
+
+<ul>
+<li><code>src</code> is used when the <a href="#element"><code>element</code></a> property points the element that accepts the <code>src</code> attribute (e.g. <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;iframe&gt;</code>, etc.). The URL that is specified to this <code>src</code> property is set to the <code>src</code> attribute of that element after the image file was loaded.</li>
+<li><code>data</code> is used when the <a href="#element"><code>element</code></a> property points the element that accepts the <code>data</code> attribute (e.g. <code>&lt;object&gt;</code>). The URL that is specified to this <code>data</code> property is set to the <code>data</code> attribute of that element after the image file was loaded.</li>
+<li><code>background</code> is used when the <a href="#element"><code>element</code></a> property points the element that doesn&#39;t accept both the <code>src</code> and  <code>data</code> attribute (e.g. <code>&lt;div&gt;</code>, <code>&lt;body&gt;</code>, <code>&lt;section&gt;</code>, etc.). The URL that is specified to this <code>background</code> property is set to the <code>style.backgroundImage</code> property of that element after the image file was loaded.</li>
+</ul>
+
+<p>If these are not specified, it tries to get the URL via the <code>data-src</code>, <code>data-data</code> or <code>data-background</code> attribute of that element.</p>
+
+<p>For example, show the low-definition image until the original image file is loaded:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;div-1&quot;</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;img-1-low.jpg&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;div-2&quot;</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;img-2-low.jpg&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;div-3&quot;</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;img-3-low.jpg&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#div-&#39;</span> <span class="o">+</span> <span class="nx">id</span><span class="p">,</span>
+    <span class="nx">background</span><span class="o">:</span> <span class="s1">&#39;img-&#39;</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
+  <span class="p">};</span>
+<span class="p">}));</span>
+</code></pre></div><div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">div</span> <span class="o">&gt;</span> <span class="nt">img</span>         <span class="p">{</span> <span class="k">visibility</span><span class="o">:</span> <span class="k">hidden</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.loading</span> <span class="o">&gt;</span> <span class="nt">img</span> <span class="p">{</span> <span class="k">visibility</span><span class="o">:</span> <span class="k">visible</span><span class="p">;</span> <span class="p">}</span>
+</code></pre></div>
+<!-- include "sample_03.html" -->
+<!-- ================ sample -->
+<p><button id="sample-03-button">Start Sample</button></p>
+
+<div id="sample-03" class="sample-frame">
+  <div id="sample-03-img-01"><img src="./img/a1-low.jpg"></div>
+  <div id="sample-03-img-02"><img src="./img/a2-low.jpg"></div>
+  <div id="sample-03-img-03"><img src="./img/a3-low.jpg"></div>
+</div>
+
+<script>
+var sample03Loader;
+
+document.getElementById('sample-03-button').onclick = function() {
+  if (sample03Loader) {
+    if (sample03Loader.done) {
+      initSample('#sample-03 > div');
+    } else {
+      return;
+    }
+  }
+  sample03Loader = new EagerImageLoader([1, 2, 3].map(function(id) {
+    return {
+      element: '#sample-03-img-0' + id,
+      background: './img/a' + id + '.jpg'
+    };
+  }));
+};
+</script>
+<!-- ================ /sample -->
+<!-- /include "sample_03.html" -->
+
+<h5 id="start,-load,-error,-abort"><code>start</code>, <code>load</code>, <code>error</code>, <code>abort</code></h5>
+
+<p><em>Type:</em> function<br><em>Default:</em> <code>undefined</code></p>
+
+<p>The event handlers of the loading.</p>
+
+<p>The Event object that is passed to these event handlers has <code>imageTarget</code> property that refers to this <code>imageTarget</code> object. The <code>this</code> in these event handlers also refers to this <code>imageTarget</code> object.<br>Also, it has <code>eagerImageLoader</code> property that refers to the current instance itself.</p>
+
+<p>The additional properties are added to this <code>imageTarget</code> object.</p>
+
+<ul>
+<li><code>startTime</code> property is the time-value (milliseconds since Unix Epoch) as the time when the loading the image file of this <code>imageTarget</code> object started.</li>
+<li><code>endTime</code> property is the time-value as the time when the loading it finished.</li>
+</ul>
+
+<p>For example:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">({</span>
+  <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+  <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;foo.png&#39;</span><span class="p">,</span>
+
+  <span class="nx">load</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Loaded File: &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">src</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Loading Time: &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">endTime</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">startTime</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;ms&#39;</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">({</span>
+  <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-1,#img-2,#img-3&#39;</span><span class="p">,</span>
+  <span class="nx">load</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Enable the &quot;Next&quot; button of Carousel Panel.</span>
+    <span class="nx">frameInit</span><span class="p">(</span><span class="nx">loader</span><span class="p">.</span><span class="nx">stepIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="c1">// Or, frameInit(event.eagerImageLoader.stepIndex - 1);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">({</span>
+  <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-1,#img-2,#img-3&#39;</span><span class="p">,</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="nx">effectForLoading</span><span class="p">,</span>
+  <span class="nx">load</span><span class="o">:</span> <span class="nx">effectForShowing</span>
+<span class="p">});</span>
+</code></pre></div>
+<!-- include "sample_04.html" -->
+<!-- ================ sample -->
+<p><button id="sample-04-button">Start Sample</button></p>
+
+<div id="sample-04" class="sample-frame">
+  <div id="sample-04-img-01">
+<svg id="sample-04-01" version="1.1" class="stopped">
+  <path id="sample-04-01-symbol"
+    d="M-10,-160V73.5q20,20 40,0t40,0t40,0t40,0t40,0t40,0V-160z">
+    <animate id="sample-04-01-anim-01"
+      attributeName="stroke-dashoffset" from="0" to="30"
+      begin="indefinite" dur="1s" repeatCount="indefinite"/>
+    <animateTransform id="sample-04-01-anim-02"
+      attributeName="transform" type="translate" from="0,0" to="0,100"
+      begin="indefinite" dur="0.6s" repeatCount="1" fill="freeze" additive="sum"/>
+    <animateTransform id="sample-04-01-anim-03"
+      attributeName="transform" type="translate" from="0,0" to="0,-120"
+      begin="indefinite" dur="1s" repeatCount="1" fill="freeze" additive="sum"/>
+    <animateTransform id="sample-04-01-anim-04"
+      attributeName="transform" type="scale" from="1,1" to="1,0.1"
+      begin="indefinite" dur="1s" repeatCount="1" fill="freeze" additive="sum"/>
+    <animateTransform id="sample-04-01-reset-01"
+      attributeName="transform" type="scale" to="1,1"
+      begin="indefinite" repeatCount="1" fill="freeze" additive="replace"/>
+    <animateTransform id="sample-04-01-reset-02"
+      attributeName="transform" type="translate" to="0,0"
+      begin="indefinite" repeatCount="1" fill="freeze" additive="replace"/>
+  </path>
+</svg>
+  </div>
+  <div id="sample-04-img-02">
+<svg id="sample-04-02" version="1.1" class="stopped">
+  <svg id="sample-04-02-symbol" viewBox="0 0 224 147" overflow="visible"><!-- for FF -->
+    <g>
+      <path d="M112,54.11v32.08c8.52,0,15.42,6.9,15.42,15.42c0,8.51-6.9,15.42-15.42,15.42c-8.52,0-15.42-6.91-15.42-15.42"/>
+      <circle cx="111.85" cy="53.83" r="10.5"/>
+      <line x1="112" y1="-10" x2="112" y2="54.11"/>
+      <animateTransform id="sample-04-02-anim-01"
+        attributeName="transform" type="rotate"
+        calcMode="spline" values="25,112,-80;-25,112,-80;25,112,-80" keyTimes="0;0.5;1"
+        keySplines="0.42 0.0 0.58 1.0;0.42 0.0 0.58 1.0"
+        begin="indefinite" dur="2s" repeatCount="indefinite"/>
+    </g>
+  </svg>
+  <animate id="sample-04-02-anim-02" xlink:href="#sample-04-02-symbol"
+    attributeName="y" from="0" to="-130"
+    begin="indefinite" dur="0.8s" repeatCount="1" fill="freeze"/>
+</svg>
+  </div>
+  <div id="sample-04-img-03">
+<svg id="sample-04-03" version="1.1" class="stopped">
+  <defs>
+    <symbol id="sample-04-03-symbol1" overflow="visible">
+      <g>
+        <path d="M9.79,5.54c0.95,0,1.71,0.77,1.71,1.71c0,0.95-0.77,1.71-1.71,1.71c-0.95,0-1.71-0.77-1.71-1.71S8.85,5.54,9.79,5.54L9.79,5.54z M-10.96,19.52h1.03c0.54,0,0.91-0.44,0.98-0.98c0.35-2.75,2.49-6.03,4.52-7.44c1.06-0.74,2.29-0.83,3.77-0.28c5.34,1.97,10.09,2.05,12.72,0.22c1.3-0.91,1.99-2.21,1.99-3.77V7.26V7.25c0-1.56-0.69-2.86-1.99-3.77C9.43,1.65,4.68,1.73-0.66,3.7c-1.48,0.55-2.71,0.45-3.77-0.28C-6.46,2.01-8.6-1.27-8.95-4.02C-9.02-4.56-9.39-5-9.93-5h-1.03V19.52z"/>
+        <rect x="-13.69" y="-5.01" width="1.88" height="24.53"/>
+        <rect x="-16.42" y="-5.01" width="1.88" height="24.53"/>
+        <path d="M-31.96,23.05v-5.79c2.55-4.63,8.48-5.14,8.48-5.14s-6.28-0.52-8.48,1.68V3.6c2.37-3.16,5.25-3.77,5.25-3.77s-2.17-0.11-5.25,1.13v-4.15c4.45-2.23,14.68-1.82,14.68-1.82v24.53C-17.28,19.52-28.22,18.18-31.96,23.05z"/>
+      </g>
+    </symbol>
+    <path id="sample-04-03-ring"
+      d="M60.28,100.98c-15.17-28.57-4.31-64.04,24.25-79.21c28.57-15.18,64.03-4.32,79.21,24.25c15.18,28.57,4.32,64.03-24.25,79.21C110.92,140.41,75.46,129.55,60.28,100.98"/>
+  </defs>
+  <mask id="sample-04-03-symbol2-mask">
+    <use xlink:href="#sample-04-03-ring" stroke-dasharray="568">
+      <animate id="sample-04-03-anim-02"
+        attributeName="stroke-dashoffset"
+        calcMode="spline" values="628;425.6;315.2;260" keyTimes="0;0.46;0.61;1"
+        keySplines="0.2 0.0 0.8 0.5;0.2 0.6 0.6 0.8;0.0 0.0 1.0 1.0"
+        begin="indefinite" dur="2s" repeatCount="indefinite"/>
+      <animate id="sample-04-03-anim-03"
+        attributeName="opacity"
+        calcMode="linear" values="1;1;0" keyTimes="0;0.61;1"
+        begin="indefinite" dur="2s" repeatCount="indefinite"/>
+    </use>
+  </mask>
+  <path id="sample-04-03-symbol2"
+    mask="url(#sample-04-03-symbol2-mask)"
+    d="M57.05,35.17C64.54,22.87,78.34,12.39,94,8.46c15.61-4.24,32.46-2.49,45.99,3.17c16.51,6.28,31.03,20.63,37.45,38.38c6.73,17.63,5.35,38.09-2.81,54.26c-0.76-0.4-0.83-3.66-2.45-1.2c-6.72,9.58-8.76,7.88-10.04,6.98c-0.69-0.5,4.42-6.7,2.21-4.94c4.47-6.76,7.4-19.71,4.23-12.44c-1.4,2.22-5.08,11.94-7.96,13.14c-2.51,1.28-0.91-3.52-3.41-2.26c-1.22,2.02-4.19,5.69-5.84,7.37c-2.28,0.98-0.36-3.48-1.98-1.88c-5.18,4.24-12.14,9.79-20.59,12.8c-0.49-0.85-2.57-0.9,1.21-2.95c17.34-6.8,29.57-24.52,30.01-43.03c0.87-18.52-10.16-36.76-26.69-44.6c-16.36-8.33-37.14-5.72-51.04,5.82C68.17,48.38,61.59,68.08,66.07,85.57c1.99,8.02-1.82,2.96-4.44-3.4c0.91,2.06-0.63,2.4,0.49,4.45c-1.2,0.41-5.17-3.5-5.78-13.26c-0.16,2.42,0.27,4.81,0.4,7.22c-0.05,2.45-1.39,0.2-2.25,0.29c-0.21-2.5-0.42-5-0.87-4.99c-0.45,0.02-1.36,0.06-1.81,0.07c0.09,2.61,0.72,7.79,1.35,10.33c-0.47-2.56-0.98-5.12-1.37-5.08c-0.45,0.06-1.35,0.17-1.8,0.23c-1.21-5.39-0.07-13.53,0.49-18.88l-1.34-0.24c-1.49,5.4-1.27,13.83-0.5,19.3c-0.69-2.71-1.14-2.69-2.05-2.61c-1.17-8.6,1.13-16.94,2.4-25.41c-0.96,2.7-1.49,5.52-2.09,8.32C45.22,55.61,52.15,42.22,57.05,35.17z"/>
+  <use id="sample-04-03-symbol1-use" xlink:href="#sample-04-03-symbol1">
+    <animateMotion id="sample-04-03-anim-01"
+      rotate="auto"
+      calcMode="spline" keyPoints="0;0.55;0.85;1" keyTimes="0;0.46;0.61;1"
+      keySplines="0.2 0.0 0.8 0.5;0.2 0.6 0.6 0.8;0.2 0.4 1.0 0.9"
+      begin="indefinite" dur="2s" repeatCount="indefinite">
+      <mpath xlink:href="#sample-04-03-ring"/>
+    </animateMotion>
+  </use>
+  <mask id="sample-04-03-image-mask">
+    <path stroke-dasharray="3400"
+      d="M-27.07,33.4L51.93,-29.1L-10.57,86.9L76.93,-21.1L-7.07,131.9L129.93,-23.1L-0.57,157.4L159.43,-19.1L36.93,159.9L188.93,-13.1L76.43,157.9L216.43,-17.6L124.43,160.4L234.93,-0.6L103.93,157.4L239.93,38.9L156.93,156.9L235.43,78.4L196.43,157.4">
+      <animate id="sample-04-03-anim-04"
+        attributeName="stroke-dashoffset"
+        from="3400" to="170"
+        begin="indefinite" dur="2s" repeatCount="1"/>
+    </path>
+    <rect width="224" height="147">
+      <animate id="sample-04-03-anim-05"
+        attributeName="opacity"
+        calcMode="linear" values="0;0;1" keyTimes="0;0.7;1"
+        begin="indefinite" dur="2.5s" repeatCount="1"/>
+    </rect>
+  </mask>
+  <image id="sample-04-03-image"
+    width="224" height="147" mask="url(#sample-04-03-image-mask)"/>
+</svg>
+  </div>
+</div>
+
+<script type="text/javascript" src="js/sample-04.js"></script>
+<script>
+var sample04Loader;
+
+document.getElementById('sample-04-button').onclick = function() {
+  if (sample04Loader) {
+    if (sample04Loader.done) {
+      sample04EffectReset();
+    } else {
+      return;
+    }
+  }
+  sample04Loader = new EagerImageLoader([
+    {
+      element: '#sample-04-img-01',
+      background: './img/a1.jpg',
+      start: sample04EffectStart,
+      load: sample04EffectStop,
+      stopLoading: true
+    },
+    {
+      element: '#sample-04-img-02',
+      background: './img/a2.jpg',
+      start: sample04EffectStart,
+      load: sample04EffectStop,
+      stopLoading: true
+    },
+    {
+      element: '#sample-04-img-03',
+      background: './img/a4.jpg',
+      start: sample04EffectStart,
+      load: sample04EffectStop,
+      stopLoading: true
+    }
+  ]);
+};
+</script>
+<!-- ================ /sample -->
+<!-- /include "sample_04.html" -->
+
+<p>See <a href="#stop"><code>stop</code></a> method also.</p>
+
+<h5 id="stoploading"><code>stopLoading</code></h5>
+
+<p><em>Type:</em> boolean<br><em>Default:</em> <code>false</code></p>
+
+<p>If <code>true</code> is specified, EagerImageLoader stops the loading, when the loading the image file of this <code>imageTarget</code> object (and all image files that start loading the same time) finished.<br>The stopped loading can be resumed by <a href="#start"><code>start</code></a> method.</p>
+
+<p>For example, it loads the image files that are parts of the UI (e.g. buttons, headers, menu items, etc.) when the page is opened, and it stops, and it loads other image files when the user scrolls the window.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">([</span>
+  <span class="p">{</span> <span class="c1">// UI parts</span>
+    <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#button-1,#button-2,#button-3,#menu-1,#menu-2,&#39;</span><span class="p">,</span>
+    <span class="nx">stopLoading</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">},</span>
+  <span class="c1">// other images</span>
+  <span class="s1">&#39;#picture-1,#picture-2,#picture-3&#39;</span>
+<span class="p">]);</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">loader</span><span class="p">.</span><span class="nx">done</span> <span class="o">&amp;&amp;</span> <span class="nx">loader</span><span class="p">.</span><span class="nx">stopped</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">loader</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="constructor-options"><code>options</code></h3>
+
+<p><code>options</code> Object that is passed to the constructor can have following properties.</p>
+
+<h4 id="autostart"><code>autoStart</code></h4>
+
+<p><em>Type:</em> boolean<br><em>Default:</em> <code>true</code></p>
+
+<p>By default, EagerImageLoader starts the loading automatically. If <code>false</code> is specified to this option, it does not start the loading until <a href="#start"><code>start</code></a> method is called.<br>For example:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">{</span><span class="nx">autoStart</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+
+<span class="nx">startButton</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">loader</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="complete"><code>complete</code></h4>
+
+<p><em>Type:</em> function<br><em>Default:</em> <code>undefined</code></p>
+
+<p>The callback that is called when the loading is finished.<br><code>this</code> in this function refers to the current instance itself.</p>
+
+<p>For example:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">(</span>
+  <span class="s1">&#39;#button-1,#button-2,#button-3,#menu-1,#menu-2,&#39;</span><span class="p">,</span> <span class="c1">// UI parts</span>
+  <span class="p">{</span>
+    <span class="nx">complete</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;All %i steps are done.&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">targets</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+      <span class="nx">controlPanelInit</span><span class="p">();</span> <span class="c1">// Enable UI.</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
+<h4 id="loadingclass"><code>loadingClass</code></h4>
+
+<p><em>Type:</em> string<br><em>Default:</em> <code>&#39;loading&#39;</code></p>
+
+<p>Add this class name to the element when the loading the image file that element points is started, and remove it when that loading is finished.</p>
+
+<h2 id="methods">Methods</h2>
+
+<h3 id="start"><code>start</code></h3>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">loader</span> <span class="o">=</span> <span class="nx">loader</span><span class="p">.</span><span class="nx">start</span><span class="p">()</span>
+</code></pre></div>
+<p>Start the loading. Or resume the loading that was stopped by <a href="#stop"><code>stop</code></a> method or <a href="#stoploading"><code>stopLoading</code></a> property of <a href="#imagetarget"><code>imageTarget</code></a> object.<br>This method returns the current instance itself.</p>
+
+<h3 id="stop"><code>stop</code></h3>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">loader</span> <span class="o">=</span> <span class="nx">loader</span><span class="p">.</span><span class="nx">stop</span><span class="p">()</span>
+</code></pre></div>
+<p>Stop the loading.<br>The stopped loading can be resumed by <a href="#start"><code>start</code></a> method.<br>This method returns the current instance itself.</p>
+
+<p>For example, it switches to the lazy-loading, when the page was opened in the mobile network (i.e. the loading is slow):</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">new</span> <span class="nx">EagerImageLoader</span><span class="p">({</span>
+  <span class="nx">element</span><span class="o">:</span> <span class="s1">&#39;#img-1&#39;</span><span class="p">,</span>
+
+  <span class="nx">load</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">loadingTime</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">endTime</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">startTime</span><span class="p">,</span>
+      <span class="nx">speed</span> <span class="o">=</span> <span class="nx">FILE_SIZE</span> <span class="o">/</span> <span class="p">(</span><span class="nx">loadingTime</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">// bits per second</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">speed</span> <span class="o">&lt;</span> <span class="mi">74</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// less than 74 Mbps</span>
+      <span class="c1">// Switch to lazy-loading when network is slow.</span>
+      <span class="nx">event</span><span class="p">.</span><span class="nx">eagerImageLoader</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+      <span class="nx">switch2LazyLoad</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<h2 id="properties">Properties</h2>
+
+<h3 id="properties-targets"><code>targets</code></h3>
+
+<p><em>Type:</em> Array<br><em>Read Only</em></p>
+
+<p>The <a href="#constructor-targets"><code>targets</code></a> Array that was passed to the <a href="#constructor">constructor</a> and parsed and optimized.</p>
+
+<h3 id="options"><code>options</code></h3>
+
+<p><em>Type:</em> Object</p>
+
+<p>The <a href="#constructor-options"><code>options</code></a> Object that was passed to the <a href="#constructor">constructor</a>.</p>
+
+<h3 id="stepindex"><code>stepIndex</code></h3>
+
+<p><em>Type:</em> number<br><em>Read Only</em></p>
+
+<p>The index of <a href="#properties-targets"><code>targets</code></a> Array.<br>This is the index of the cycles of the loading. That is, it might not be the number of the files that are loaded because a single cycle might include multiple targets.</p>
+
+<h3 id="stopped"><code>stopped</code></h3>
+
+<p><em>Type:</em> boolean<br><em>Read Only</em></p>
+
+<p>The boolean to indicate whether the loading was stopped by <a href="#stop"><code>stop</code></a> method or <a href="#stoploading"><code>stopLoading</code></a> property of <a href="#imagetarget"><code>imageTarget</code></a> object.</p>
+
+<h3 id="done"><code>done</code></h3>
+
+<p><em>Type:</em> boolean<br><em>Read Only</em></p>
+
+<p>The boolean to indicate whether the loading was finished.</p>
+
+  </main>
+  <footer>
+    <p class="copyright">EagerImageLoader maintained by <a href="https://github.com/anseki">anseki</a></p>
+  </footer>
+
+</body>
+</html>
