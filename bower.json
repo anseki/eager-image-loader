@@ -1,0 +1,43 @@
+{
+  "name": "eager-image-loader",
+  "version": "0.1.0",
+  "description": "The eager-loading for image files on the web page that loads the files according to your plan. This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.",
+  "keywords": [
+    "eager-load",
+    "image",
+    "load",
+    "fast",
+    "lazy-load",
+    "usability",
+    "on-demand",
+    "scroll",
+    "file",
+    "document-order",
+    "serial",
+    "pre-load",
+    "background",
+    "src",
+    "img",
+    "backgroundimage",
+    "ui",
+    "button"
+  ],
+  "main": "eager-image-loader.min.js",
+  "homepage": "http://anseki.github.io/eager-image-loader/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anseki/eager-image-loader.git"
+  },
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "license": "MIT",
+  "authors": [
+    "anseki <AnSeki.aff@gmail.com>"
+  ]
+}
