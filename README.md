@@ -3,7 +3,7 @@
 The eager-loading for image files on the web page that loads the files according to your plan.  
 This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.
 
-[![ss-01](ss-01.gif)](http://anseki.github.io/eager-image-loader/)  
+[![ss-01](ss-01.gif)](http://anseki.github.io/eager-image-loader/)
 
 **See <a href="http://anseki.github.io/eager-image-loader/">DEMO</a>**
 
