@@ -3,10 +3,10 @@
 The eager-loading for image files on the web page that loads the files according to your plan.  
 This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.
 
-[![ss-01](ss-01.gif)](http://anseki.github.io/eager-image-loader/)
-[![ss-02](ss-02.gif)](http://anseki.github.io/eager-image-loader/)
+[![ss-01](ss-01.gif)](https://anseki.github.io/eager-image-loader/)
+[![ss-02](ss-02.gif)](https://anseki.github.io/eager-image-loader/)
 
-**See <a href="http://anseki.github.io/eager-image-loader/">DEMO</a>**
+**See <a href="https://anseki.github.io/eager-image-loader/">DEMO</a>**
 
 The lazy-loading is very useful for the user which left your web page before he read all. It avoids forcing that user to pay the network cost for the images he didn't see, in the mobile networks. The image files are not loaded until it's presumed that each image is seen by the user. Therefore the user often be kept waiting it.
 

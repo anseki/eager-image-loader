@@ -23,7 +23,7 @@
     "ui",
     "button"
   ],
-  "homepage": "http://anseki.github.io/eager-image-loader/",
+  "homepage": "https://anseki.github.io/eager-image-loader/",
   "repository": {
     "type": "git",
     "url": "git://github.com/anseki/eager-image-loader.git"
