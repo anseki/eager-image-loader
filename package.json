@@ -1,6 +1,6 @@
 {
   "name": "eager-image-loader",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "EagerImageLoader",
   "description": "The eager-loading for image files on the web page that loads the files according to your plan. This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.",
   "keywords": [
