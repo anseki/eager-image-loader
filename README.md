@@ -1,5 +1,7 @@
 # EagerImageLoader
 
+[![npm](https://img.shields.io/npm/v/eager-image-loader.svg)](https://www.npmjs.com/package/eager-image-loader) [![GitHub issues](https://img.shields.io/github/issues/anseki/eager-image-loader.svg)](https://github.com/anseki/eager-image-loader/issues) [![dependencies](https://img.shields.io/badge/dependencies-No%20dependency-brightgreen.svg)](package.json) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE-MIT)
+
 The eager-loading for image files on the web page that loads the files according to your plan.  
 This differs from the lazy-loading, for example, this can be used to avoid that the user waits for the loading.
 

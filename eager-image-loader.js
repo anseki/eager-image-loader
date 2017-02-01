@@ -1,6 +1,6 @@
 /*
  * EagerImageLoader
- * https://github.com/anseki/eager-image-loader
+ * https://anseki.github.io/eager-image-loader/
  *
  * Copyright (c) 2015 anseki
  * Licensed under the MIT license.
