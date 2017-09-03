@@ -455,3 +455,7 @@ The boolean to indicate whether the loading was stopped by [`stop`](#stop) metho
 *Read Only*
 
 The boolean to indicate whether the loading was finished.
+
+---
+
+Thanks for images: [Unsplash](https://unsplash.com/), [PxHere](https://pxhere.com/)
