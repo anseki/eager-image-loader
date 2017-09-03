@@ -24,6 +24,8 @@
   </header>
   <main>
 
+<p><a href="https://www.npmjs.com/package/eager-image-loader"><img src="https://img.shields.io/npm/v/eager-image-loader.svg" alt="npm"></a> <a href="https://github.com/anseki/eager-image-loader/issues"><img src="https://img.shields.io/github/issues/anseki/eager-image-loader.svg" alt="GitHub issues"></a> <a href="package.json"><img src="https://img.shields.io/badge/dependencies-No%20dependency-brightgreen.svg" alt="dependencies"></a> <a href="LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a></p>
+
 <!-- include "sample_01a.html" -->
 <!-- ================ sample -->
 <div id="sample-01" class="sample-frame sample-v">
@@ -60,9 +62,11 @@ document.getElementById('sample-01-button').onclick = function() {
 <!-- ================ /sample -->
 <!-- /include "sample_01b.html" -->
 
-<p>The lazy-loading is very useful for the user which left your web page before he read all. It avoids forcing that user to pay the network cost for the images he didn&#39;t see, in the mobile networks. The image files are not loaded until it&#39;s presumed that each image is seen by the user. Therefore the user often be kept waiting it.</p>
+<p><strong>Lazy-Loading vs. Eager-Loading</strong></p>
 
-<p>EagerImageLoader loads the image files according to specific plan or document order.<br>For example, it loads a first image file in a hurry without other loading interfering. And after the loading a first image file finished, it starts the loading a second image file while the user is seeing a first image or reading something. As necessary, it loads the remaining image files in the order in which they would be seen by the user, one by one(default).</p>
+<p>The <strong>lazy-loading</strong> is very useful for the user which left your web page before the user read all. It avoids forcing that user to pay the network cost for the images the user didn&#39;t see, in the mobile networks. The image files are not loaded until it&#39;s presumed that each image is seen by the user. Therefore the user often be kept waiting it.</p>
+
+<p>The <strong>eager-loading</strong> (i.e. EagerImageLoader) loads the image files according to specific plan or document order.<br>For example, it loads a first image file in a hurry without other loading interfering. And after the loading a first image file finished, it starts the loading a second image file while the user is seeing a first image or reading something. As necessary, it loads the remaining image files in the order in which they would be seen by the user, one by one(default).</p>
 
 <p>By default, it loads without a break. You can control that it starts and stops. For example, like the lazy-loading, EagerImageLoader loads the image files when the user scrolls the window.<br>Also, it can pre-load the image files before those are used.</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;eager-image-loader.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -255,7 +259,7 @@ document.getElementById('sample-02-button').onclick = function() {
   <span class="p">{</span> <span class="nx">element</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">(),</span> <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;button-pushed.png&#39;</span> <span class="p">},</span>
 <span class="p">);</span>
 </code></pre></div>
-<h5 id="src,-data,-background"><code>src</code>, <code>data</code>, <code>background</code></h5>
+<h5 id="src-data-background"><code>src</code>, <code>data</code>, <code>background</code></h5>
 
 <p><em>Type:</em> string<br><em>Default:</em> <code>undefined</code></p>
 
@@ -314,7 +318,7 @@ document.getElementById('sample-03-button').onclick = function() {
 <!-- ================ /sample -->
 <!-- /include "sample_03.html" -->
 
-<h5 id="start,-load,-error,-abort"><code>start</code>, <code>load</code>, <code>error</code>, <code>abort</code></h5>
+<h5 id="start-load-error-abort"><code>start</code>, <code>load</code>, <code>error</code>, <code>abort</code></h5>
 
 <p><em>Type:</em> function<br><em>Default:</em> <code>undefined</code></p>
 
@@ -625,6 +629,10 @@ document.getElementById('sample-04-button').onclick = function() {
 <p><em>Type:</em> boolean<br><em>Read Only</em></p>
 
 <p>The boolean to indicate whether the loading was finished.</p>
+
+<hr>
+
+<p>Thanks for images: <a href="https://unsplash.com/">Unsplash</a>, <a href="https://pxhere.com/">PxHere</a></p>
 
   </main>
   <footer>
