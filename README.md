@@ -10,9 +10,11 @@ This differs from the lazy-loading, for example, this can be used to avoid that 
 
 **See <a href="https://anseki.github.io/eager-image-loader/">DEMO</a>**
 
-The lazy-loading is very useful for the user which left your web page before he read all. It avoids forcing that user to pay the network cost for the images he didn't see, in the mobile networks. The image files are not loaded until it's presumed that each image is seen by the user. Therefore the user often be kept waiting it.
+**Lazy-Loading vs. Eager-Loading**
 
-EagerImageLoader loads the image files according to specific plan or document order.  
+The **lazy-loading** is very useful for the user which left your web page before the user read all. It avoids forcing that user to pay the network cost for the images the user didn't see, in the mobile networks. The image files are not loaded until it's presumed that each image is seen by the user. Therefore the user often be kept waiting it.
+
+The **eager-loading** (i.e. EagerImageLoader) loads the image files according to specific plan or document order.  
 For example, it loads a first image file in a hurry without other loading interfering. And after the loading a first image file finished, it starts the loading a second image file while the user is seeing a first image or reading something. As necessary, it loads the remaining image files in the order in which they would be seen by the user, one by one(default).
 
 By default, it loads without a break. You can control that it starts and stops. For example, like the lazy-loading, EagerImageLoader loads the image files when the user scrolls the window.  
