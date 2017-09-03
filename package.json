@@ -23,6 +23,7 @@
     "ui",
     "button"
   ],
+  "main": "plain-draggable.min.js",
   "homepage": "https://anseki.github.io/eager-image-loader/",
   "repository": {
     "type": "git",
