@@ -24,6 +24,11 @@
     "button"
   ],
   "main": "eager-image-loader.min.js",
+  "files": [
+    "eager-image-loader.min.js",
+    "bower.json",
+    "LICENSE-MIT"
+  ],
   "homepage": "https://anseki.github.io/eager-image-loader/",
   "repository": {
     "type": "git",
