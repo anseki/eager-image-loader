@@ -26,8 +26,7 @@
   "main": "eager-image-loader.min.js",
   "files": [
     "eager-image-loader.min.js",
-    "bower.json",
-    "LICENSE-MIT"
+    "bower.json"
   ],
   "homepage": "https://anseki.github.io/eager-image-loader/",
   "repository": {
